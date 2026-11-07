@@ -2,8 +2,9 @@ from pathlib import Path
 import html
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent  # 脚本位于 scripts/ 下，ROOT 为仓库根
 PHOTO = ROOT / "resume_photo.jpg"
+OUT = ROOT / "简历版本" / "2026-11_投递版"
 
 
 def h(text):
@@ -38,14 +39,14 @@ def base_html(title, summary, skills, projects, role_line):
 <meta charset="utf-8">
 <title>{h(title)}</title>
 <style>
-@page {{ size: A4; margin: 8mm 15mm; }}
+@page {{ size: A4; margin: 7mm 14mm; }}
 * {{ box-sizing: border-box; }}
 body {{
   margin: 0;
   color: #1f1f1f;
   font-family: "Microsoft YaHei", "SimSun", "PingFang SC", Arial, sans-serif;
-  font-size: 9.42pt;
-  line-height: 1.39;
+  font-size: 9.15pt;
+  line-height: 1.33;
 }}
 .page {{ position: relative; max-width: 180mm; margin: 0 auto; }}
 .header {{ min-height: 78px; padding-right: 86px; }}
@@ -54,8 +55,8 @@ h1 {{ margin: 0 0 2px; font-size: 21.4pt; line-height: 1.05; font-weight: 800; }
 .contact, .edu-line {{ color: #444; font-size: 8.95pt; margin: 1.7px 0; }}
 .photo {{ position: absolute; top: 0; right: 0; width: 68px; height: 88px; object-fit: cover; }}
 h2 {{
-  margin: 7px 0 4px;
-  padding-bottom: 2.7px;
+  margin: 6px 0 3px;
+  padding-bottom: 2.2px;
   border-bottom: 1.25px solid #5b9bd5;
   font-size: 13.25pt;
   line-height: 1.15;
@@ -63,12 +64,12 @@ h2 {{
 }}
 h3 {{ margin: 0; font-size: 10.3pt; line-height: 1.21; font-weight: 800; }}
 p {{ margin: 0 0 3.2px; }}
-ul {{ margin: 2.2px 0 4px 16px; padding: 0; }}
-li {{ margin: 0 0 1.6px; padding-left: 1px; }}
+ul {{ margin: 2px 0 3.4px 16px; padding: 0; }}
+li {{ margin: 0 0 1.3px; padding-left: 1px; }}
 .row {{ display: flex; justify-content: space-between; align-items: baseline; gap: 14px; }}
 .row span {{ white-space: nowrap; color: #444; font-size: 9pt; }}
 .meta {{ color: #444; font-size: 9pt; margin: 0.7px 0 2.7px; }}
-.project {{ break-inside: avoid; margin-bottom: 4.2px; }}
+.project {{ break-inside: avoid; margin-bottom: 3.4px; }}
 .summary {{ margin-bottom: 3.2px; }}
 .work-head {{ margin-bottom: 3.2px; }}
 .work-head .meta {{ margin-top: 1px; }}
@@ -116,18 +117,19 @@ def agent_html():
         "后端开发：Java、Python、SQL，具备 RESTful 接口设计、服务拆分、网关链路、接口联调、异常处理、日志排查和工程化交付经验。",
         "Agent 工程：熟悉 Agent 创建/配置、短期记忆、上下文 Context、Function Calling、MCP Server、Skill、JSON Schema、工具注册、调用链日志和结构化输出。",
         "数据与检索：参与行情数据 MCP、RAG 数据 MCP 开发，理解证券识别、市场确认、字段选择、行情查询、资料检索和结果组织流程。",
+        "存储与中间件：项目中使用 MySQL（会话上下文）、MongoDB（任务存储）、Redis（缓存），理解各自适用场景与接入方式。",
         "工具平台：Git、Linux、Oracle，具备后端服务部署、联调和线上问题排查经验。",
     ]
     intro = project("工作概览", "", "后端开发工程师", [
         "参与 AI Agent 与金融行情能力平台建设，承担后端服务开发、工具能力封装、MCP/Skill 接入、联调验证和线上问题排查。",
-        "完成 2 个 MCP（行情数据、RAG 数据）、14 个 Skill 和 1 个通用对话 Agent 的开发/接入，沉淀工具注册、参数校验、错误提示和结果结构化输出流程。",
+        "完成 2 个 MCP、14 个 Skill（wind-mcp-skill / wind-alice）和 1 个通用对话 Agent 的开发/接入；团队由 3 人扩展至 8 人，全程参与核心开发，沉淀工具注册、参数校验、错误码和结构化输出流程。",
     ])
     projects = intro + project("Agent 服务平台 AliceToHome", "2025.12 - 2026.03", "核心开发 | Java、Python、Agent、工具编排、Context", [
-        "核心负责后端短期记忆与上下文 Context 模块，围绕会话标识、历史消息、工具调用结果和用户意图维护多轮对话状态。",
+        "核心负责短期记忆与 Context 模块：会话上下文存于 MySQL、任务存于 MongoDB、Redis 参与缓存；短期记忆采用模型摘要策略压缩历史问答，作为下一轮问答前提，兼顾长度控制与关键信息保留。",
         "设计上下文组装与透传流程，将系统指令、用户问题、历史轮次、工具结果和能力返回按执行链路组织，并结合上下文裁剪控制输入长度。",
         "统一工具描述、入参 schema、出参结构、错误提示和结构化结果输出，减少工具接入时的重复适配，为后续 Skill/MCP 能力复用提供标准口径。",
     ]) + project("Wind 智能市场 AIMarket", "2026.03 - 至今", "后台管理负责人 / 核心开发 | Java、Python、MCP、Skill、金融行情", [
-        "负责 AIMarket 后台管理模块建设，围绕 2 个 MCP、14 个 Skill 和 1 个通用对话 Agent 提供配置维护、上下线管理、版本维护和平台化组织能力。",
+        "负责 AIMarket 后台管理模块建设（服务内部一个完整部门）：覆盖权限、运营活动与报表、工具/网关/计费配置、人员与平台合作管理等子模块，支撑 2 个 MCP、14 个 Skill、1 个通用对话 Agent 的配置、上下线与版本管理。",
         "协助开发网关调用链路，参与请求校验、traceId 透传、路由分发、能力调用、超时控制、异常映射和结构化结果返回等后端流程。",
         "完成行情数据 MCP、RAG 数据 MCP 及 14 个 Skill 的开发/维护，统一能力描述、参数校验、错误码和返回结构，覆盖行情查询、资料检索、通用问答和能力编排等 4 类场景。",
     ]) + project("通用对话 Agent 与 Skill/MCP 能力建设", "2026.03 - 至今", "核心开发 | Python、Java、MCP、Skill、Function Calling", [
@@ -146,6 +148,7 @@ def cpp_html():
     )
     skills = [
         "C++ 后端：C/C++（C++11/14）、STL、多线程/异步编程、内存管理、模块拆分、接口联调，具备 Linux 环境下服务开发与问题排查经验。",
+        "网络编程：理解 TCP/UDP 与 epoll I/O 多路复用，有组播接收、无锁队列、TCP 回放服务的个人开源项目实践（flowhub / minivent）。",
         "行情系统：理解 A 股、港股、美股行情数据接入、标准化、业务规则计算、分发、存储、回放链路，能处理缺失、重复、乱序等数据质量问题。",
         "性能排障：熟悉 gdb、perf、pmap/top、FlameGraph，具备 CPU、内存、IO、队列堆积、日志链路排查经验；了解 Valgrind/Massif、ASan/LSan 等内存分析工具。",
         "数据存储：熟悉 SQL、Oracle，参与行情数据写入路径、表结构/分区、批量落库、索引和生命周期管理优化。",
@@ -166,18 +169,19 @@ def cpp_html():
     ]) + project("行情数据存储框架调整与线上问题排查", "2025.06 - 2025.12", "核心开发 | C++、SQL、存储框架、火焰图、内存分析", [
         "参与行情数据存储框架调整，围绕写入路径、表结构/分区、批量落库和历史回放需求优化整体设计。",
         "梳理不同品种和频率行情数据的存储差异，统一关键字段、索引和生命周期管理策略，减少重复写入、漏写和格式不一致风险。",
-        "处理线上内存暴增问题，通过复现模拟、pmap/top 观察进程内存、gdb/perf 采样和火焰图定位异常分配路径，区分真实泄漏、缓存增长和对象生命周期问题；修复后在连续 6 小时回放压测中内存曲线趋于稳定，未再出现线性增长。",
+        "处理线上内存暴增问题：复现模拟 + pmap/top 观察 + gdb/perf 采样 + 火焰图定位，确认根因为线程池设计缺陷——同一标的进入不同线程并行处理后争抢同一把锁，锁竞争导致延迟与积压、内存持续增长；推动按标的固定专用线程、精简线程模型消除竞争，修复后连续 6 小时回放压测内存曲线稳定。",
     ])
     return base_html("后端工程师 | C++ 行情系统方向", summary, skills, projects, "C++ 后端开发工程师")
 
 
 def write_html():
+    OUT.mkdir(parents=True, exist_ok=True)
     outputs = [
         ("于艳波_后端工程师_Agent方向_简历.html", agent_html()),
         ("于艳波_后端工程师_C++行情方向_简历.html", cpp_html()),
     ]
     for name, content in outputs:
-        path = ROOT / name
+        path = OUT / name
         path.write_text(content, encoding="utf-8")
         print(path)
 
